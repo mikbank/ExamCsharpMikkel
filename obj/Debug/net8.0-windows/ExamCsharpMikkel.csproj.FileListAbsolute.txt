@@ -1,0 +1,14 @@
+C:\Users\mikh\ExamCsharpMikkel\bin\Debug\net8.0-windows\ExamCsharpMikkel.exe
+C:\Users\mikh\ExamCsharpMikkel\bin\Debug\net8.0-windows\ExamCsharpMikkel.deps.json
+C:\Users\mikh\ExamCsharpMikkel\bin\Debug\net8.0-windows\ExamCsharpMikkel.runtimeconfig.json
+C:\Users\mikh\ExamCsharpMikkel\bin\Debug\net8.0-windows\ExamCsharpMikkel.dll
+C:\Users\mikh\ExamCsharpMikkel\bin\Debug\net8.0-windows\ExamCsharpMikkel.pdb
+C:\Users\mikh\ExamCsharpMikkel\obj\Debug\net8.0-windows\ExamCsharpMikkel.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mikh\ExamCsharpMikkel\obj\Debug\net8.0-windows\ExamCsharpMikkel.AssemblyInfoInputs.cache
+C:\Users\mikh\ExamCsharpMikkel\obj\Debug\net8.0-windows\ExamCsharpMikkel.AssemblyInfo.cs
+C:\Users\mikh\ExamCsharpMikkel\obj\Debug\net8.0-windows\ExamCsharpMikkel.csproj.CoreCompileInputs.cache
+C:\Users\mikh\ExamCsharpMikkel\obj\Debug\net8.0-windows\ExamCsharpMikkel.dll
+C:\Users\mikh\ExamCsharpMikkel\obj\Debug\net8.0-windows\refint\ExamCsharpMikkel.dll
+C:\Users\mikh\ExamCsharpMikkel\obj\Debug\net8.0-windows\ExamCsharpMikkel.pdb
+C:\Users\mikh\ExamCsharpMikkel\obj\Debug\net8.0-windows\ExamCsharpMikkel.genruntimeconfig.cache
+C:\Users\mikh\ExamCsharpMikkel\obj\Debug\net8.0-windows\ref\ExamCsharpMikkel.dll
