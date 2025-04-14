@@ -13,8 +13,8 @@ public Form1()
 {
     InitializeComponent();
     this.Text = "Sensor Data Analyzer";
-    this.Width = 500;
-    this.Height = 300;
+    this.Width = 600;
+    this.Height = 400;
 
     // File path TextBox
     pathTextBox = new TextBox();
@@ -25,7 +25,7 @@ public Form1()
     // Path Button
     pathButton = new Button();
     pathButton.Text = "Path";
-    pathButton.Left = pathTextBox.Right + 10;
+    pathButton.Left = 280;
     pathButton.Top = pathTextBox.Top;
     pathButton.Click += PathButton_Click;
 
@@ -36,36 +36,50 @@ public Form1()
     methodsLabel.Left = 20;
     methodsLabel.AutoSize = true;
 
-    // Radio buttons
+    // Create GroupBox
+    GroupBox methodGroup = new GroupBox();
+    methodGroup.Text = "Methods";
+    methodGroup.Top = 70;
+    methodGroup.Left = 20;
+    methodGroup.Width = 350;
+    methodGroup.Height = 120;
+
+    // Radio buttons (inside the group)
     method1Radio = new RadioButton();
     method1Radio.Text = "1";
-    method1Radio.Top = 100;
-    method1Radio.Left = 40;
+    method1Radio.Top = 25;
+    method1Radio.Left = 20;
 
     method2Radio = new RadioButton();
     method2Radio.Text = "2";
-    method2Radio.Top = 100;
-    method2Radio.Left = 100;
+    method2Radio.Top = 25;
+    method2Radio.Left = 140;
 
     method3Radio = new RadioButton();
     method3Radio.Text = "3";
-    method3Radio.Top = 100;
-    method3Radio.Left = 160;
+    method3Radio.Top = 25;
+    method3Radio.Left = 250;
+
+    // Add radio buttons to group
+    methodGroup.Controls.Add(method1Radio);
+    methodGroup.Controls.Add(method2Radio);
+    methodGroup.Controls.Add(method3Radio);
+
+    
+    
 
     // Run Button
     runButton = new Button();
     runButton.Text = "Run";
-    runButton.Top = 150;
-    runButton.Left = 350;
+    runButton.Top = 200;
+    runButton.Left = 450;
     runButton.Click += RunButton_Click;
 
     // Add to form
     this.Controls.Add(pathTextBox);
     this.Controls.Add(pathButton);
     this.Controls.Add(methodsLabel);
-    this.Controls.Add(method1Radio);
-    this.Controls.Add(method2Radio);
-    this.Controls.Add(method3Radio);
+    this.Controls.Add(methodGroup);
     this.Controls.Add(runButton);
 }
   private void PathButton_Click(object? sender, EventArgs e)
@@ -79,7 +93,7 @@ public Form1()
         }
     }
 
-    // ⬇️ Also place this below the constructor
+    // run button simple function
     private void RunButton_Click(object? sender, EventArgs e)
     {
         string selectedMethod = method1Radio.Checked ? "1" :
