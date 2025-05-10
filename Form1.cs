@@ -1,20 +1,26 @@
 namespace ExamCsharpMikkel;
+using System.Diagnostics;
+using ExamCsharpMikkel.Processing;
+using ExamCsharpMikkel.Monitor;
+using ExamCsharpMikkel.Events;
+using ExamCsharpMikkel.Logging;
 
 public partial class Form1 : Form
 {
    private TextBox pathTextBox;
-private Button pathButton;
-private RadioButton method1Radio;
-private RadioButton method2Radio;
-private RadioButton method3Radio;
-private Button runButton;
+    private Button pathButton;
+    private RadioButton method1Radio;
+    private RadioButton method2Radio;
+    private RadioButton method3Radio;
+    private Button runButton;
+    private TextBox logTextBox;
 
 public Form1()
 {
     InitializeComponent();
     this.Text = "Sensor Data Analyzer";
     this.Width = 600;
-    this.Height = 400;
+    this.Height = 500;
 
     // File path TextBox
     pathTextBox = new TextBox();
@@ -65,9 +71,6 @@ public Form1()
     methodGroup.Controls.Add(method2Radio);
     methodGroup.Controls.Add(method3Radio);
 
-    
-    
-
     // Run Button
     runButton = new Button();
     runButton.Text = "Run";
@@ -81,7 +84,49 @@ public Form1()
     this.Controls.Add(methodsLabel);
     this.Controls.Add(methodGroup);
     this.Controls.Add(runButton);
+
+    // Log TextBox
+    logTextBox = new TextBox();
+    logTextBox.Multiline = true;
+    logTextBox.ScrollBars = ScrollBars.Vertical;
+    logTextBox.Width = 550;
+    logTextBox.Height = 100;
+    logTextBox.Left = 20;
+    logTextBox.Top = 300;
+    logTextBox.ReadOnly = true;
+    
+
+    this.Controls.Add(logTextBox);
+    
+    //initialize Logging and cpturing of log 
+    Trace.Listeners.Clear(); // Clear existing default
+    Trace.Listeners.Add(new TextWriterTraceListener(logCapture));
+
+    logCapture.OnLineWritten += line =>
+    {
+        logTextBox.Invoke(() =>
+        {
+            logTextBox.AppendText(line + Environment.NewLine);
+        });
+    };
+
+    //initialize processing Event subscriptions
+    AppEvents.OnProcessingCompleted += duration =>
+    {
+        string logText = logCapture.GetLog();
+        MessageBox.Show($"Processing completed in {duration.TotalSeconds:F2} seconds.");
+        logCapture.Clear();
+    };
+
+    
 }
+//Declare field for LogCapture
+
+private readonly LogCapture logCapture = new LogCapture();
+
+
+//Functions in the form:
+
   private void PathButton_Click(object? sender, EventArgs e)
     {
         using OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -96,11 +141,22 @@ public Form1()
     // run button simple function
     private void RunButton_Click(object? sender, EventArgs e)
     {
-        string selectedMethod = method1Radio.Checked ? "1" :
-                                method2Radio.Checked ? "2" :
-                                method3Radio.Checked ? "3" : "none";
-
-        MessageBox.Show($"File path: {pathTextBox.Text}\nSelected method: {selectedMethod}");
+        if (method1Radio.Checked)
+        {
+            ExecutionTimer.ChronoGraph(() => Method1Processor.Run("hello world"));
+        }
+        else if (method2Radio.Checked)
+        {
+            ExecutionTimer.ChronoGraph(() => Method2Processor.Run("this is 2. selection"));
+        }
+        else if (method3Radio.Checked)
+        {
+            ExecutionTimer.ChronoGraph(() => Method3Processor.Run(pathTextBox.Text));
+        }
+        else
+        {
+            MessageBox.Show("Please select a method.");
+        }
     }
 
 }
