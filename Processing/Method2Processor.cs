@@ -1,11 +1,13 @@
 namespace ExamCsharpMikkel.Processing;
 using System.Threading;
-using System.Diagnostics;
+using Serilog;
 public static class Method2Processor
 {
     public static void Run(string message)
     {
+        Log.Information("Starting Method 2");
+        Log.Information("Message received: {Message}", message);
         Thread.Sleep(2000);
-        Trace.WriteLine(message);
+        Log.Information(message);
     }
 }

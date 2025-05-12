@@ -6,8 +6,14 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <StartupObject>ExamCsharpMikkel.Program</StartupObject>
-    <!--StartupObject>TestRunner</StartupObject--> 
+    <!--StartupObject>ExamCsharpMikkel.Program</StartupObject-->
+    <StartupObject>TestRunner</StartupObject> 
     </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="4.2.0" />
+    <PackageReference Include="Serilog.Sinks.RichTextBox.WinForms.Colored" Version="2.1.0" />
+    <PackageReference Include="Serilog.Sinks.Winforms" Version="2.5.0" />
+  </ItemGroup>
 
 </Project>

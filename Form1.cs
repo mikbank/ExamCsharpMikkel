@@ -1,9 +1,10 @@
 namespace ExamCsharpMikkel;
-using System.Diagnostics;
 using ExamCsharpMikkel.Processing;
 using ExamCsharpMikkel.Monitor;
 using ExamCsharpMikkel.Events;
-using ExamCsharpMikkel.Logging;
+using Serilog;
+using Serilog.Sinks.WinForms;
+using Serilog.Sinks.RichTextBoxForms;
 
 public partial class Form1 : Form
 {
@@ -13,7 +14,7 @@ public partial class Form1 : Form
     private RadioButton method2Radio;
     private RadioButton method3Radio;
     private Button runButton;
-    private TextBox logTextBox;
+    private RichTextBox logTextBox;
 
 public Form1()
 {
@@ -78,52 +79,40 @@ public Form1()
     runButton.Left = 450;
     runButton.Click += RunButton_Click;
 
+ // Log TextBox - Richtext to display logging better
+    logTextBox = new RichTextBox();
+    logTextBox.Multiline = true;
+    logTextBox.Width = 550;
+    logTextBox.Height = 100;
+    logTextBox.Left = 20;
+    logTextBox.Top = 300;
+    logTextBox.ReadOnly = true;
+
     // Add to form
     this.Controls.Add(pathTextBox);
     this.Controls.Add(pathButton);
     this.Controls.Add(methodsLabel);
     this.Controls.Add(methodGroup);
     this.Controls.Add(runButton);
-
-    // Log TextBox
-    logTextBox = new TextBox();
-    logTextBox.Multiline = true;
-    logTextBox.ScrollBars = ScrollBars.Vertical;
-    logTextBox.Width = 550;
-    logTextBox.Height = 100;
-    logTextBox.Left = 20;
-    logTextBox.Top = 300;
-    logTextBox.ReadOnly = true;
-    
-
     this.Controls.Add(logTextBox);
     
-    //initialize Logging and cpturing of log 
-    Trace.Listeners.Clear(); // Clear existing default
-    Trace.Listeners.Add(new TextWriterTraceListener(logCapture));
 
-    logCapture.OnLineWritten += line =>
-    {
-        logTextBox.Invoke(() =>
-        {
-            logTextBox.AppendText(line + Environment.NewLine);
-        });
-    };
+    //Configuring Logging using serilog
+    Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.RichTextBox(logTextBox)
+    .CreateLogger();
 
     //initialize processing Event subscriptions
     AppEvents.OnProcessingCompleted += duration =>
     {
-        string logText = logCapture.GetLog();
+        
         MessageBox.Show($"Processing completed in {duration.TotalSeconds:F2} seconds.");
-        logCapture.Clear();
+        
     };
 
     
 }
-//Declare field for LogCapture
-
-private readonly LogCapture logCapture = new LogCapture();
-
 
 //Functions in the form:
 
