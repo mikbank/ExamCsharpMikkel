@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <!--StartupObject>ExamCsharpMikkel.Program</StartupObject-->
-    <StartupObject>TestRunner</StartupObject> 
+    <StartupObject>ExamCsharpMikkel.Program</StartupObject>
+    <!--StartupObject>TestRunner</StartupObject--> 
     </PropertyGroup>
 
   <ItemGroup>

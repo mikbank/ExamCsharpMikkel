@@ -1,13 +1,13 @@
 namespace ExamCsharpMikkel.Processing;
 using System.Threading;
 using Serilog;
-public static class Method3Processor
+public class Method3Processor: IDataProcessor
 {
-    public static void Run(string filePath)
+        public void Run(string input)
     {
         Log.Information("Starting Method 3");
-        Log.Information("Filepath received: {filePath}", filePath);
+        Log.Information("Filepath received: {filePath}", input);
         Thread.Sleep(3000);
-        Log.Information($"Selected file path: {filePath}");
+        Log.Information($"Selected file path: {input}");
     }
 }
