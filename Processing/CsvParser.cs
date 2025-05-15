@@ -33,22 +33,22 @@ public static class CsvParser
                         SensorName = parts[0],
                         X = int.Parse(parts[1]),
                         Y = int.Parse(parts[2]),
-                        Date = DateTime.ParseExact(parts[3], "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture)
+                        Date = DateTime.ParseExact(parts[3], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
                     };
 
-                    if (reading.IsValid)
+                    if (reading.IsValid) // if line passes validation it is added to list of readings
                     {
                         readings.Add(reading);
                     }
                     else
                     {
-                        Log.Warning($"Validation failed for line {lineIndex}: Outlier corrected. Skipping row.");
+                        Log.Warning($"Validation failed for line {lineIndex}: Outlier detected. Skipping row."); //using set validation to detect outliers - if outlier it is not added to results
                         invalidLines.Add(lineIndex);
                     }
                 }
                 catch
                 {
-                    Log.Warning($"Could not parse data on line index {lineIndex}. LineInfo: {line}");
+                    Log.Warning($"Could not parse data on line index {lineIndex}. LineInfo: {line}"); // if data cannot be parsed an error is thrown, which is catched here
                     invalidLines.Add(lineIndex);
                 } 
 

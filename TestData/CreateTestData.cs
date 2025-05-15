@@ -26,6 +26,8 @@ public static class TestDataGenerator
                 {
                     int x = (i % 500 == 0) ? 999 : random.Next(1,51) ; // Creates testdata at random - OBS conditional operator - 
                     int y = (i % 500 == 0) ? 999 : random.Next(1,51);
+                    
+                    
                     string DateStamp = DateTime.Now.AddHours(-i).ToString("yyyy-MM-dd HH:mm:ss");
 
                 csv.AppendLine($"{sensor},{x},{y},{DateStamp}");
