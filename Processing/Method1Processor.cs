@@ -3,40 +3,56 @@ using ExamCsharpMikkel.SensorDataClass;
 using Serilog;
 public class Method1Processor: IDataProcessor
 {
-        public void Run(string input)
+        public void Run(List<SensorData> data)
     {
         Log.Information("Starting Method 1");
 
-        var data = CsvParser.ParseCsv(input);
+       // var data = CsvParser.ParseCsv(input);
 
-        // Group by sensor using a dictionary
-        var grouped = new Dictionary<string, List<SensorData>>();
 
+        //slooooow function to demonstrate differences between processes   
+        // Step 1: Get unique sensor names oldschool
+        List<string> sensorNames = new List<string>();
         foreach (var reading in data)
         {
-            if (!grouped.ContainsKey(reading.SensorName))
+            if (!sensorNames.Contains(reading.SensorName))
             {
-                grouped[reading.SensorName] = new List<SensorData>();
+                sensorNames.Add(reading.SensorName);
             }
-
-            grouped[reading.SensorName].Add(reading);
         }
 
-        // Process each sensor group
-        foreach (var sensor in grouped)
+        // Step 2: For each sensor, loop through all data to compute stats
+        foreach (var sensorName in sensorNames)
         {
-            var sensorName = sensor.Key;
-            var readings = sensor.Value;
+            int count = 0; //resets values for next iteration
+            int sumX = 0;
+            int sumY = 0;
+            int minX = int.MaxValue;
+            int maxX = int.MinValue;
+            int minY = int.MaxValue;
+            int maxY = int.MinValue;
+            DateTime? first = null;
+            DateTime? last = null;
 
-            int count = readings.Count;
-            double avgX = readings.Average(r => r.X);
-            double avgY = readings.Average(r => r.Y);
-            int minX = readings.Min(r => r.X);
-            int maxX = readings.Max(r => r.X);
-            int minY = readings.Min(r => r.Y);
-            int maxY = readings.Max(r => r.Y);
-            DateTime first = readings.Min(r => r.Date);
-            DateTime last = readings.Max(r => r.Date);
+            foreach (var reading in data)
+            {
+                if (reading.SensorName == sensorName) // very simple filtering to make sure current reading is the sensor we want to look at
+                {
+                    count++;
+                    sumX += reading.X;
+                    sumY += reading.Y;
+                    if (reading.X < minX) minX = reading.X;
+                    if (reading.X > maxX) maxX = reading.X;
+                    if (reading.Y < minY) minY = reading.Y;
+                    if (reading.Y > maxY) maxY = reading.Y;
+
+                    if (first == null || reading.Date < first) first = reading.Date;
+                    if (last == null || reading.Date > last) last = reading.Date;
+                }
+            }
+
+            double avgX = count > 0 ? (double)sumX / count : 0; // average calculated from sum
+            double avgY = count > 0 ? (double)sumY / count : 0;
 
             Log.Information(
                 $"Sensor: {sensorName} | Count: {count} | AvgX: {avgX:F2} | AvgY: {avgY:F2} | MinX: {minX}, MaxX: {maxX} | MinY: {minY}, MaxY: {maxY} | From: {first:g} to {last:g}"

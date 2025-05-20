@@ -1,7 +1,7 @@
 namespace ExamCsharpMikkel.Processing;
-
-public interface IDataProcessor
+using ExamCsharpMikkel.SensorDataClass;
+public interface IDataProcessor //very simple interface to play around with holding calls to methods
 {
 
-    void Run(string input);
+    void Run(List<SensorData> data);
 }

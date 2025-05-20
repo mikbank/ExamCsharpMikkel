@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Text;
-
 
 namespace ExamCsharpMikkel.TestData;
 
@@ -12,10 +8,13 @@ namespace ExamCsharpMikkel.TestData;
 public static class TestDataGenerator
 
 {
-    private static readonly string[] Sensors = {"Sensor1", "Sensor2", "Sensor3", "Sensor4","Sensor5"};
+    private static readonly string[] Sensors = Enumerable.Range(1, 100) //simple function to create a range of theoretical sensors for test data
+    .Select(i => $"Sensor{i}")
+    .ToArray();
+
     private static readonly Random random = new Random();
     
-    public static void CsvCreator(string filePath , int Entries = 10000)
+    public static void CsvCreator(string filePath , int Entries = 50000)
     {
         var csv = new StringBuilder();
         csv.AppendLine("SensorName,X,Y,Date"); //header for csv. 
@@ -24,11 +23,11 @@ public static class TestDataGenerator
         {
                 for (int i = 1; i <= Entries; i++)
                 {
-                    int x = (i % 500 == 0) ? 999 : random.Next(1,51) ; // Creates testdata at random - OBS conditional operator - 
-                    int y = (i % 500 == 0) ? 999 : random.Next(1,51);
+                    int x = random.Next(1, 51); //(i % 500 == 0) ? 999 : random.Next(1,51) ; // Creates testdata at random - OBS conditional operator - commented out to create clean data for demonstration 
+                    int y = random.Next(1, 51); //(i % 500 == 0) ? 999 : random.Next(1,51);
                     
                     
-                    string DateStamp = DateTime.Now.AddHours(-i).ToString("yyyy-MM-dd HH:mm:ss");
+                    string DateStamp = DateTime.Now.AddSeconds(-i).ToString("yyyy-MM-dd HH:mm:ss");
 
                 csv.AppendLine($"{sensor},{x},{y},{DateStamp}");
 

@@ -35,8 +35,8 @@ public static class CsvParser
                         Y = int.Parse(parts[2]),
                         Date = DateTime.ParseExact(parts[3], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
                     };
-
-                    if (reading.IsValid) // if line passes validation it is added to list of readings
+                    readings.Add(reading);
+                   /* if (reading.IsValid) // if line passes validation it is added to list of readings
                     {
                         readings.Add(reading);
                     }
@@ -44,7 +44,7 @@ public static class CsvParser
                     {
                         Log.Warning($"Validation failed for line {lineIndex}: Outlier detected. Skipping row."); //using set validation to detect outliers - if outlier it is not added to results
                         invalidLines.Add(lineIndex);
-                    }
+                    }*/
                 }
                 catch
                 {
